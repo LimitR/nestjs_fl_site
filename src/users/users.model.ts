@@ -13,7 +13,7 @@ interface UserCreationAttrs {
 
 @Table(
     {
-        tableName: 'users'
+        tableName: 'users_relise'
     }
 )
 export class Users extends Model<Users, UserCreationAttrs> {
@@ -36,6 +36,12 @@ export class Users extends Model<Users, UserCreationAttrs> {
     @ApiProperty({example: 'SPAM', description: 'Причина блокировки пользователя'})
     @Column({type: DataType.STRING, allowNull: true})
     banRequest: string;
+
+    @Column({type: DataType.STRING, allowNull: true})
+    token: string;
+
+    @Column({type: DataType.BOOLEAN, defaultValue: false})
+    active: boolean;
 
     @BelongsToMany(()=> Roles, ()=> UserRoles)
     roles: Roles[]

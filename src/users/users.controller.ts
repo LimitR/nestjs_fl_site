@@ -1,10 +1,11 @@
-import { Body, Controller, Get, Post, UseGuards, UsePipes } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards, UsePipes } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Role } from 'src/auth/role-auth.decarator';
 import { RoleGuard } from 'src/auth/role.guard';
 import { ValidationPipe } from 'src/pipes/validation.pipe';
 import { Roles } from 'src/roles/roles.model';
+import { ActiveUserDto } from './dto/actived-user.dto';
 import { addRoleDto } from './dto/add-role.dto';
 import { BanUserDto } from './dto/ban-user.dto';
 import { createUsersDto } from './dto/create-users.dto';
@@ -56,6 +57,11 @@ export class UsersController {
     @Post('/ban')
     ban(@Body() dto: BanUserDto){
         return this.usersService.ban(dto);
+    }
+
+    @Get('/active/:link')
+    asctived(@Param('link') link){
+        this.usersService.asctived(link)
     }
 
 }

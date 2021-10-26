@@ -4,13 +4,16 @@ import { createUsersDto } from 'src/users/dto/create-users.dto';
 import { UsersService } from 'src/users/users.service';
 import * as bcrypt from 'bcryptjs';
 import { Users } from 'src/users/users.model';
+import * as nodemailer from 'nodemailer';
 import { CreateRoleDto } from 'src/roles/dto/create-role.dto';
+import { ConfigModule } from '@nestjs/config';
+import * as uuid from 'uuid';
 
 @Injectable()
 export class AuthService {
 
     constructor(private userService: UsersService,
-                private jwtService: JwtService
+                private jwtService: JwtService,
         ){}
 
    async login(userDto: createUsersDto){
@@ -25,6 +28,25 @@ export class AuthService {
         throw new HttpException('Пользователь существует', HttpStatus.BAD_REQUEST)
     }
     const hashPassword = await bcrypt.hash(userDto.password, 5);
+
+    let transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 587,
+        secure: false,
+        auth: {
+            user: process.env.SMTP_USER,
+            pass: process.env.SMTP_PASSWORD
+        }
+    })
+
+    await transporter.sendMail({
+        from: 'flomaster.root.ru@gmail.com',
+        to: userDto.email,
+        subject: 'Регистрация на сайте',
+        text: 'sefesfe',
+        html: `<div><a href="${process.env.API_URL}/users/active/${hashPassword}"></a>${process.env.API_URL}/users/active/${hashPassword}</div>`
+    })
+    
     const user = await this.userService.createUsers({...userDto, password: hashPassword});
     return this.generateToken(user)
 
@@ -47,4 +69,7 @@ export class AuthService {
         }
         throw new UnauthorizedException({message: 'Некорректный логин или пароль'})
     }
+
+    
 }
+

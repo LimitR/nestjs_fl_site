@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { RolesService } from 'src/roles/roles.service';
+import { ActiveUserDto } from './dto/actived-user.dto';
 import { addRoleDto } from './dto/add-role.dto';
 import { BanUserDto } from './dto/ban-user.dto';
 import { createUsersDto } from './dto/create-users.dto';
@@ -54,6 +55,16 @@ export class UsersService {
         user.banRequest = dto.banRequest;
         await user.save();
         return user;
+    }
+
+    async asctived(link: string){
+        const user = await this.userRepository.findOne({where: {password: link}})
+        if(!user){
+            throw new HttpException('Пользователь не найден', HttpStatus.NOT_FOUND)
+        }
+         user.active = true;
+        await user.save()
+        return user
     }
 
 }
