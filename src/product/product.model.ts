@@ -3,7 +3,7 @@ import { Column, DataType, Model, Table } from "sequelize-typescript";
 
 
 interface ProductCreationAttrs {
-    name: string,
+    title: string,
     prise: string,
     img: string,
     description_product: string
@@ -13,7 +13,7 @@ interface ProductCreationAttrs {
 
 @Table(
     {
-        tableName: 'product_plant'
+        tableName: 'product_plant_2'
     }
 )
 export class Product extends Model<Product, ProductCreationAttrs> {
@@ -23,7 +23,7 @@ export class Product extends Model<Product, ProductCreationAttrs> {
 
     @ApiProperty({example: 'Роза', description: 'Название продукта'})
     @Column({type: DataType.STRING, allowNull: false})
-    name: string;
+    title: string;
 
     @ApiProperty({example: '1000', description: 'Стоимость в рублях'})
     @Column({type: DataType.STRING, allowNull: false})

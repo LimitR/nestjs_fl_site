@@ -1,6 +1,9 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-export class createProductDto {
+export class updateProductDto {
+
+    readonly productId: number;
+
     @ApiProperty({example: 'Роза', description: 'Name product'})
     readonly title: string;
     
