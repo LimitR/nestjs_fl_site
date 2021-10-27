@@ -37,12 +37,14 @@ export class Users extends Model<Users, UserCreationAttrs> {
     @Column({type: DataType.STRING, allowNull: true})
     banRequest: string;
 
-    @Column({type: DataType.STRING, allowNull: true})
+    @ApiProperty({example: 'sefes-fesfse-fesfesf-esfe', description: 'Уникальный токен для верификации почты'})
+    @Column({type: DataType.STRING, unique: true, allowNull: true})
     token: string;
 
     @Column({type: DataType.BOOLEAN, defaultValue: false})
     active: boolean;
 
+    @ApiProperty({example: 'USER', description: 'Роль пользователя'})
     @BelongsToMany(()=> Roles, ()=> UserRoles)
     roles: Roles[]
 }

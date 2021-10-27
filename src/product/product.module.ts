@@ -6,6 +6,7 @@ import { Product } from './product.model';
 import { RolesModule } from 'src/roles/roles.module';
 import { RoleGuard } from 'src/auth/role.guard';
 import { AuthModule } from 'src/auth/auth.module';
+import {FilesModule} from "../files/files.module";
 
 @Module({
   providers: [ProductService],
@@ -13,7 +14,8 @@ import { AuthModule } from 'src/auth/auth.module';
   imports: [
     SequelizeModule.forFeature([Product]),
     RolesModule,
-    forwardRef(()=> AuthModule)
+    forwardRef(()=> AuthModule),
+      FilesModule
   ]
 
 })

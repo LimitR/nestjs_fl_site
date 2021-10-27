@@ -49,7 +49,8 @@ export class AuthService {
     })
     
     const user = await this.userService.createUsers({...userDto, password: hashPassword, token: token});
-    return this.generateToken(user)
+    const user_val = await this.validateUser(userDto)
+    return this.generateToken(user_val)
 
 
     }
