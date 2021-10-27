@@ -58,7 +58,7 @@ export class UsersService {
     }
 
     async asctived(link: string){
-        const user = await this.userRepository.findOne({where: {password: link}})
+        const user = await this.userRepository.findOne({where: {token: link}})
         if(!user){
             throw new HttpException('Пользователь не найден', HttpStatus.NOT_FOUND)
         }
