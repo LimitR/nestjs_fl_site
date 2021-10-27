@@ -7,7 +7,7 @@ import { Users } from 'src/users/users.model';
 import * as nodemailer from 'nodemailer';
 import { CreateRoleDto } from 'src/roles/dto/create-role.dto';
 import { ConfigModule } from '@nestjs/config';
-import * as uuid from 'uuid';
+import {v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class AuthService {
@@ -27,8 +27,9 @@ export class AuthService {
     if(candidate){
         throw new HttpException('Пользователь существует', HttpStatus.BAD_REQUEST)
     }
-    const hashPassword = await bcrypt.hash(userDto.password, 5);
 
+    const hashPassword = await bcrypt.hash(userDto.password, 5);
+    const token = uuidv4()
     let transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 587,
@@ -44,10 +45,10 @@ export class AuthService {
         to: userDto.email,
         subject: 'Регистрация на сайте',
         text: 'sefesfe',
-        html: `<div><a href="${process.env.API_URL}/users/active/${hashPassword}"></a>${process.env.API_URL}/users/active/${hashPassword}</div>`
+        html: `<div><a href="${process.env.API_URL}/users/active/${hashPassword}"></a>${process.env.API_URL}/users/active/${token}</div>`
     })
     
-    const user = await this.userService.createUsers({...userDto, password: hashPassword});
+    const user = await this.userService.createUsers({...userDto, password: hashPassword, token: token});
     return this.generateToken(user)
 
 

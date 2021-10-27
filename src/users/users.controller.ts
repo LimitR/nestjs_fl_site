@@ -59,7 +59,7 @@ export class UsersController {
         return this.usersService.ban(dto);
     }
 
-    @ApiOperation({summary: 'Забанить пользователя'})
+    @ApiOperation({summary: 'Активировать аккаунт пользователя'})
     @Get('/active/:link')
     asctived(@Param('link') link){
         this.usersService.asctived(link)

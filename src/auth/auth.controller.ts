@@ -12,20 +12,12 @@ export class AuthController {
 
     @Post('/login')
     login(@Body() userDto: createUsersDto){
-
         return this.authService.login(userDto)
-
     }
 
     @Post('/registration')
-    registration(@Body() userDto: createUsersDto){
-
+    registration(@Body() userDto: createUsersDto) {
         return this.authService.registration(userDto)
-
     }
-
-
-
-
 
 }

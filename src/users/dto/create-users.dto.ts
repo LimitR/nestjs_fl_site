@@ -11,4 +11,8 @@ export class createUsersDto {
     @ApiProperty({example: 'qwerRWWQ1234', description: 'Very hard password'})
     @Length(4, 16, {message: 'Должно быть строкой от 4 до 16 символов'})
     readonly password: string;
+
+    @IsString({message: 'Должно быть строкой'})
+    @ApiProperty({example: 'sefe-esfesf-esfe-fesf', description: 'Токен для подтверждения почты'})
+    readonly  token: string
 }
