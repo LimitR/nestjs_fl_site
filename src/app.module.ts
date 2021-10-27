@@ -14,12 +14,17 @@ import { UserRoles } from './roles/user-role.model';
 import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
+import {ServeStaticModule} from "@nestjs/serve-static";
+import * as path from "path";
 
 @Module(
   {
     controllers: [AuthController],
     providers: [FilesService, AuthService],
     imports: [
+      ServeStaticModule.forRoot({
+        rootPath: path.resolve(__dirname, 'static'),
+      }),
       ConfigModule.forRoot({
       envFilePath: '.env'
       }),

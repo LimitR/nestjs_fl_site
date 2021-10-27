@@ -6,10 +6,10 @@ import * as uuid from 'uuid';
 @Injectable()
 export class FilesService {
 
-    async createFile(file): Promise<string> {
+    async createFileImg(file): Promise<string> {
         try {
             const fileName = uuid.v4() + '.jpg';
-            const filePath = path.resolve(__dirname, '..', 'static')
+            const filePath = path.resolve(__dirname, '..', 'static', 'img')
             if (!fs.existsSync(filePath)) {
                 fs.mkdirSync(filePath, {recursive: true})
             }
