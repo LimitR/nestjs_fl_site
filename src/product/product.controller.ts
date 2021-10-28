@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Post, UploadedFile, UseGuards, UseInterceptors} from '@nestjs/common';
+import {Body, Controller, Get, Param, Post, UploadedFile, UseGuards, UseInterceptors} from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Role } from 'src/auth/role-auth.decarator';
 import { RoleGuard } from 'src/auth/role.guard';
@@ -30,10 +30,15 @@ export class ProductController {
         return this.productService.updateProduct(productDto);
     }
 
-
+    @ApiResponse({status: 200})
     @Get()
     getAll(){
         return this.productService.getAllProduct()
+    }
+
+    @Get('/path/:id')
+        getOne(@Param('id') id){
+        return this.productService.getOneProduct(id)
     }
 }
 

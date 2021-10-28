@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { createProductDto } from './dto/create-product.dto';
 import { updateProductDto } from './dto/update-product.dto';
@@ -38,6 +38,15 @@ export class ProductService {
     async getAllProduct(){
         const product = await this.productRepository.findAll();
         return product;
+    }
+
+    async getOneProduct(id){
+        let _id: number = +id;
+        const product = await  this.productRepository.findOne({where: {id: _id}})
+        if(!product){
+            throw new HttpException('Товар не найден', HttpStatus.NOT_FOUND)
+        }
+        return product
     }
 }
 

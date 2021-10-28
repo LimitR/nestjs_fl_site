@@ -70,6 +70,6 @@ export class Product extends Model<Product, ProductCreationAttrs> {
     old_prise: string;
 
     @ApiProperty({example: './img/default.png', description: 'Ссылка на товар'})
-    @Column({type: DataType.STRING, allowNull: true, defaultValue: './img/default.png'})
+    @Column({type: DataType.STRING, allowNull: true, defaultValue: 'default.png'})
     img: string
 }
