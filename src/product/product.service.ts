@@ -4,10 +4,13 @@ import { createProductDto } from './dto/create-product.dto';
 import { updateProductDto } from './dto/update-product.dto';
 import { Product } from './product.model';
 import {FilesService} from "../files/files.service";
+import {createSomeProduct} from "./dto/createSome-product.dto";
+import {ProductSome} from "./someProduct.model";
 
 @Injectable()
 export class ProductService {
     constructor(@InjectModel(Product) private productRepository: typeof Product,
+                @InjectModel(ProductSome) private productSomeRepository: typeof ProductSome,
                 private  fileServise: FilesService) {}
 
     async createProduct(dto: createProductDto, img){
@@ -32,6 +35,13 @@ export class ProductService {
         }
 
         await product.save()
+        return product
+    }
+
+    async createSomeProduct(dto: createSomeProduct, img){
+
+        const fileName = await this.fileServise.createFileImg(img);
+        const product = await this.productSomeRepository.create({...dto, img: fileName});
         return product
     }
 

@@ -5,7 +5,9 @@ import { RoleGuard } from 'src/auth/role.guard';
 import { createProductDto } from './dto/create-product.dto';
 import { updateProductDto } from './dto/update-product.dto';
 import { ProductService } from './product.service';
+import { createSomeProduct } from './dto/createSome-product.dto';
 import {FileInterceptor} from "@nestjs/platform-express";
+
 
 @ApiTags('Товары')
 @Controller('product')
@@ -21,6 +23,13 @@ export class ProductController {
     create(@Body() productDto: createProductDto,
            @UploadedFile() img){
         return this.productService.createProduct(productDto, img);
+    }
+
+    @Post('/addSomeProduct')
+    @UseInterceptors(FileInterceptor('img'))
+    createSomeProduct(@Body() productDto: createSomeProduct,
+           @UploadedFile() img){
+        return this.productService.createSomeProduct(productDto, img)
     }
 
     @Role("ADMIN")
